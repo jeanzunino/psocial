@@ -1,0 +1,42 @@
+package br.com.networkmanagerj.exception;
+
+import br.com.networkmanagerj.persistence.PersistenceErrorTypes;
+
+/**
+ * @author jean
+ */
+public class ExcecaoGenericaDAO extends Exception {
+
+	private PersistenceErrorTypes errorType;
+
+	/**
+	 * Cria uma exceção
+	 * 
+	 * @param message - uma mensagem para a exceção
+	 */
+	public ExcecaoGenericaDAO(String message) {
+		super(message);
+	}
+
+	/**
+	 * Cria uma exceção
+	 */
+	public ExcecaoGenericaDAO() {
+		super();
+	}
+
+	/**
+	 * @return tipo de erro
+	 */
+	public PersistenceErrorTypes getErrorType() {
+		return errorType;
+	}
+
+	/**
+	 * @param errorType
+	 */
+	public void setErrorType(PersistenceErrorTypes errorType) {
+		this.errorType = errorType;
+	}
+
+}
