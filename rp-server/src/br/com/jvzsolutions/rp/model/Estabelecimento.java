@@ -5,6 +5,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -20,7 +22,7 @@ public class Estabelecimento implements IEntity{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "estabelecimento_id", nullable = false, unique = true)
-	private Integer id;
+	private Long id;
 
 	@Column(name = "nome", nullable = false, unique = true)
 	private String nome;
@@ -30,12 +32,20 @@ public class Estabelecimento implements IEntity{
 
 	@Column(name = "endereco", nullable = false, unique = true)
 	private String endereco;
+	
+	@ManyToOne
+	@JoinColumn(name = "estado", nullable = false)
+	private Estado estado;
+	
+	@ManyToOne
+	@JoinColumn(name = "cidade", nullable = false)
+	private Cidade cidade;
 
-	public Integer getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

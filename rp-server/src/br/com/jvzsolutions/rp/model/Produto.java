@@ -5,29 +5,41 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 import br.com.jvzsolutions.rp.dao.persistence.IEntity;
 
 @Entity
 @Table(name = "produtos")
+@NamedQueries({
+	@NamedQuery(name = "Produto.searchById", query = "select obj from Produto obj where obj.id = ?1"),
+	@NamedQuery(name = "Produto.searchByCodigoBarras", query = "select obj from Produto obj where obj.codigoBarras = ?1")})
 public class Produto implements IEntity{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "produto_id", nullable = false, unique = true)
-	private Integer id;
+	private Long id;
 
 	@Column(name = "nome", nullable = false, unique = true)
 	private String nome;
 	
+	@Column(name = "codigo_barras", nullable = true, unique = true)
 	private long codigoBarras;
 
-	public Integer getId() {
+	@ManyToOne
+	@JoinColumn(name = "categoria", nullable = false)
+	private CategoriaProduto categoria;
+	
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -46,5 +58,15 @@ public class Produto implements IEntity{
 	public void setCodigoBarras(long codigoBarras) {
 		this.codigoBarras = codigoBarras;
 	}
+
+	public CategoriaProduto getCategoria() {
+		return categoria;
+	}
+
+	public void setCategoria(CategoriaProduto categoria) {
+		this.categoria = categoria;
+	}
+	
+	
 	
 }

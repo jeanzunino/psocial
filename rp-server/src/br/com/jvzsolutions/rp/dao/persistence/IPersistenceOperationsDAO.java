@@ -43,7 +43,7 @@ public interface IPersistenceOperationsDAO<TEntity extends IEntity> {
 	 * @throws GenericPersistenceException Caso ocorra algum erro na operação
 	 *             com a base
 	 */
-	public ArrayList<TEntity> executeNamedQuery(String namedQuery,
+	public List<TEntity> executeNamedQuery(String namedQuery,
 			Object[] parameters) throws ExcecaoGenericaDAO;
 
 	/**
@@ -53,7 +53,7 @@ public interface IPersistenceOperationsDAO<TEntity extends IEntity> {
 	 * @throws GenericPersistenceException Caso ocorra algum erro na operação
 	 *             com a base
 	 */
-	public ArrayList<TEntity> executeQuery(String jpql, Object[] parameters)
+	public List<TEntity> executeQuery(String jpql, Object[] parameters)
 			throws ExcecaoGenericaDAO;
 	
 	/**
@@ -64,12 +64,5 @@ public interface IPersistenceOperationsDAO<TEntity extends IEntity> {
 	 */
 	public List<TEntity> search(OrderType orderType)
 			throws ExcecaoGenericaDAO;
-
-	/**
-	 * @param entity
-	 * @return Retorna se o objeto está refenciado por outro na base de dados
-	 * @throws GenericPersistenceException
-	 */
-	public Boolean isUsed(TEntity entity) throws ExcecaoGenericaDAO;
 
 }

@@ -1,11 +1,9 @@
-package br.com.jvzsolutions.rp.dao;
+package br.com.jvzsolutions.rp.dao.persistence;
 
 import java.lang.reflect.Constructor;
 import java.util.HashMap;
 
 import br.com.jvzsolutions.rp.dao.exception.ExcecaoGenericaDAO;
-import br.com.jvzsolutions.rp.dao.persistence.IEntity;
-import br.com.jvzsolutions.rp.dao.persistence.IPersistenceOperationsDAO;
 
 /**
  * Fábrica de DAO
@@ -23,14 +21,14 @@ public class DAOFactory {
 			throws ExcecaoGenericaDAO {
 		Class<IEntity> clazz = null;
 		try {
-			clazz = (Class<IEntity>) Class.forName("com.networkmanagerj.dao."
+			clazz = (Class<IEntity>) Class.forName("br.com.jvzsolutions.rp.dao."
 					+ entityClass.getSimpleName() + "DAO");
 			Constructor<?> constructor = clazz.getConstructor(String.class);
 
 			IPersistenceOperationsDAO<IEntity> dao = (IPersistenceOperationsDAO<IEntity>) constructor
 					.newInstance(this.puName);
 			if (dao == null)
-				throw new ClassNotFoundException();
+				throw new ClassNotFoundException(clazz.getName());
 
 			return dao;
 		} catch (Exception e) {

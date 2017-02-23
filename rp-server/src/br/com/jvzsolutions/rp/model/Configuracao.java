@@ -16,24 +16,15 @@ public class Configuracao implements IEntity{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "configuracao_id", nullable = false, unique = true)
-	private Integer id;
+	private Long id;
 	
-	private int versaoEstados;
-
-	public Integer getId() {
+	
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(Long id) {
 		this.id = id;
-	}
-
-	public int getVersaoEstados() {
-		return versaoEstados;
-	}
-
-	public void setVersaoEstados(int versaoEstados) {
-		this.versaoEstados = versaoEstados;
 	}
 	
 }

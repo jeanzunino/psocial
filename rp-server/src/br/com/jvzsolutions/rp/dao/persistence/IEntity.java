@@ -11,11 +11,11 @@ public interface IEntity extends Serializable{
 	 * 
 	 * @return o id da entidade
 	 */
-	public Integer getId();
+	public Long getId();
 	
 	/**
 	 * 
 	 * @param id
 	 */
-	public void setId(Integer id);
+	public void setId(Long id);
 }

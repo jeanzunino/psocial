@@ -16,16 +16,19 @@ public class Usuario implements IEntity{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "usuario_id", nullable = false, unique = true)
-	private Integer id;
+	private Long id;
 	
 	@Column(name = "nome", nullable = false, unique = true)
 	private String nome;
 
-	public Integer getId() {
+	@Column(name = "email", nullable = false, unique = true)
+	private String email;
+	
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -36,5 +39,14 @@ public class Usuario implements IEntity{
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	
 	
 }

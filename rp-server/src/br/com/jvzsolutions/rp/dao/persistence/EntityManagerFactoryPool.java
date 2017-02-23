@@ -5,6 +5,7 @@ import java.util.HashMap;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
+
 /**
  * Gerencia os EntitymanagerFactory<br>
  * Faz um papel de Pool de Conexões com as bases de dados<br>
@@ -15,7 +16,6 @@ import javax.persistence.Persistence;
  */
 public class EntityManagerFactoryPool {
 	private static HashMap<String, EntityManagerFactory> emfList = new HashMap<String, EntityManagerFactory>();;
-
 	private EntityManagerFactoryPool() {
 	}
 
@@ -42,10 +42,11 @@ public class EntityManagerFactoryPool {
 			try {
 				emf = Persistence.createEntityManagerFactory(puName);
 				System.out.println("\n**** EntityManagerFactory criado, puName:"+ puName);
+				emfList.put(puName, emf);
 			} catch (Exception e) {
 				System.err.println("\n*********Erro ao criar o EntityManagerFactory."+ e.getCause().getMessage()+ "******\n\n"+ e.getMessage());
+				throw new RuntimeException("Erro ao criar o EntityManagerFactory.", e);
 			}
-			emfList.put(puName, emf);
 		}
 		return emf;
 	}

@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.Id;
 import javax.persistence.Query;
 
@@ -129,7 +130,8 @@ public abstract class AbstractDAO<TEntity extends IEntity> implements IPersisten
 	public void save(TEntity entity) throws ExcecaoGenericaDAO {
 		EntityManager em = null;
 		try {
-			em = EntityManagerFactoryPool.getEntityManagerFactory(getPuName()).createEntityManager();
+			EntityManagerFactory entityManagerFactory = EntityManagerFactoryPool.getEntityManagerFactory(getPuName());
+			em = entityManagerFactory.createEntityManager();
 			em.getTransaction().begin();
 			setNullEntityId(entity);
 			em.persist(entity);

@@ -12,8 +12,6 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import com.networkmanagerj.model.AcaoMensagem;
-
 import br.com.jvzsolutions.rp.dao.persistence.IEntity;
 
 @Entity
@@ -23,19 +21,16 @@ public class Estado implements IEntity{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "estado_id", nullable = false, unique = true)
-	private Integer id;
+	private Long id;
 
 	@Column(name = "nome", nullable = false, unique = true)
 	private String nome;
-
-	@OneToMany(mappedBy = "estado_id", targetEntity = Cidade.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	private List<Cidade> cidades;
 	
-	public Integer getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -45,14 +40,6 @@ public class Estado implements IEntity{
 
 	public void setNome(String nome) {
 		this.nome = nome;
-	}
-
-	public List<Cidade> getCidades() {
-		return cidades;
-	}
-
-	public void setCidades(List<Cidade> cidades) {
-		this.cidades = cidades;
 	}
 	
 	

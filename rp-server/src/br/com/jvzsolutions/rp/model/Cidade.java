@@ -8,7 +8,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
 import br.com.jvzsolutions.rp.dao.persistence.IEntity;
 
@@ -19,7 +18,7 @@ public class Cidade implements IEntity{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "cidade_id", nullable = false, unique = true)
-	private Integer id;
+	private Long id;
 	
 	@Column(name = "nome", nullable = false, unique = true)
 	private String nome;
@@ -28,11 +27,11 @@ public class Cidade implements IEntity{
 	@JoinColumn(name = "estado_id", nullable = false)
 	private Estado estado;
 
-	public Integer getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
