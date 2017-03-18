@@ -1,6 +1,5 @@
 package br.com.jvzsolutions.rp.dao.persistence;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import br.com.jvzsolutions.rp.dao.exception.ExcecaoGenericaDAO;

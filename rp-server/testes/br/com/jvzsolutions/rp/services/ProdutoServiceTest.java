@@ -1,13 +1,12 @@
 package br.com.jvzsolutions.rp.services;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collection;
-import java.util.Date;
 
 import javax.ws.rs.core.MediaType;
 
@@ -28,10 +27,9 @@ public class ProdutoServiceTest {
 
 	@Test
 	public void getAllTest() throws JSONException, JsonParseException, JsonMappingException, IOException {
-
 		Client c = Client.create();
 		WebResource r = c.resource("http://psocial.servehttp.com:8080/rp-server/rest/produtos");
-
+		javax.xml.stream.XMLInputFactory sd;
 		JSONArray response = r.accept(MediaType.APPLICATION_JSON).type(MediaType.APPLICATION_JSON).get(JSONArray.class);
 
 		final Collection<Produto> produtos = new ArrayList<>();

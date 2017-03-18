@@ -7,12 +7,16 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 import br.com.jvzsolutions.rp.dao.persistence.IEntity;
 
 @Entity
 @Table(name = "cidades")
+@NamedQueries({
+	@NamedQuery(name = "Cidade.searchByEstado", query = "select obj from Cidade obj where obj.estado.id = ?1")})
 public class Cidade implements IEntity{
 
 	@Id

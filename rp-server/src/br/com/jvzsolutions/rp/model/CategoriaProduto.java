@@ -7,13 +7,18 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
 import br.com.jvzsolutions.rp.dao.persistence.IEntity;
 
 @Entity
 @Table(name = "categorias_produtos")
+@NamedQueries({
+	@NamedQuery(name = "CategoriaProduto.search", query = "select obj from CategoriaProduto obj where LOWER(obj.nome) like ?1")
+	})
+
 public class CategoriaProduto implements IEntity{
 
 	@Id

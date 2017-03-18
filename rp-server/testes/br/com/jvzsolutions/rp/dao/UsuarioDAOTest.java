@@ -16,8 +16,8 @@ public class UsuarioDAOTest {
 		
 		Usuario u = new Usuario();
 		u.setId(1L);
-		u.setNome("jasdlkas");
-		u.setEmail("kasjdhkajsdh");
+		u.setNome("jvzunino");
+		u.setEmail("jean.zunino@gmail.com");
 		IPersistenceOperationsDAO<Usuario> dao = (IPersistenceOperationsDAO<Usuario>) instance.createDAO(u.getClass());
 		Assert.assertNotNull(dao);
 		

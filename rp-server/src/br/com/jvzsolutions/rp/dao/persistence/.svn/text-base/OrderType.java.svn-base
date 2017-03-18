@@ -1,0 +1,16 @@
+package br.com.networkmanagerj.persistence;
+
+/**
+ * @author jean
+ * 
+ */
+public enum OrderType {
+	/**
+	 * Tipo de ordem crescente
+	 */
+	Asc,
+	/**
+	 * Tipo de ordem decrescente
+	 */
+	Desc;
+}

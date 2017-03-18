@@ -72,6 +72,22 @@ public class Estabelecimento implements IEntity{
 	public void setEndereco(String endereco) {
 		this.endereco = endereco;
 	}
+
+	public Estado getEstado() {
+		return estado;
+	}
+
+	public void setEstado(Estado estado) {
+		this.estado = estado;
+	}
+
+	public Cidade getCidade() {
+		return cidade;
+	}
+
+	public void setCidade(Cidade cidade) {
+		this.cidade = cidade;
+	}
 	
 	
 }

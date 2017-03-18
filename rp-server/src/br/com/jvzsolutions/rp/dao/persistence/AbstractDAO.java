@@ -9,6 +9,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.Query;
 
 import br.com.jvzsolutions.rp.dao.exception.ExcecaoGenericaDAO;
@@ -58,7 +59,7 @@ public abstract class AbstractDAO<TEntity extends IEntity> implements IPersisten
 		try {
 			Field[] fields = entity.getClass().getDeclaredFields();
 			for (Field field : fields) {
-				if (field.isAnnotationPresent(Id.class)) {
+				if (field.isAnnotationPresent(Id.class) && !field.isAnnotationPresent(JoinColumn.class)) {
 					field.setAccessible(true);
 					field.set(entity, null);
 				}

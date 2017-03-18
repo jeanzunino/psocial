@@ -1,8 +1,9 @@
 package br.com.jvzsolutions.rp.model;
 
-import java.math.BigDecimal;
+import java.sql.Date;
 
 import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -15,20 +16,24 @@ import br.com.jvzsolutions.rp.dao.persistence.IEntity;
 @Entity
 @Table(name = "precos_atuais")
 @NamedQueries({
-	@NamedQuery(name = "PrecoAtual.searchByProduto", query = "select obj from PrecoAtual obj where obj.produto = ?1") })
-public class PrecoAtual implements IEntity{
+	@NamedQuery(name = "PrecoAtual.searchByProduto", query = "select obj from PrecoAtual obj where obj.precoAtualPK.produto = ?1"),
+	@NamedQuery(name = "PrecoAtual.searchByProdutoCidade", query = "select obj from PrecoAtual obj where obj.precoAtualPK.produto = ?1 and obj.precoAtualPK.estabelecimento.cidade.id IN (?2)"),
+	@NamedQuery(name = "PrecoAtual.searchById", query = "select obj from PrecoAtual obj where obj.precoAtualPK.produto = ?1 and obj.precoAtualPK.estabelecimento = ?2")})
+public class PrecoAtual implements IEntity {
 
-	@ManyToOne
-	@JoinColumn(name = "produto_id", nullable = false)
-	private Produto produto;
-	
-	@ManyToOne
-	@JoinColumn(name = "estabelecimento_id", nullable = false)
-	private Estabelecimento estabelecimento;
-	
+	@EmbeddedId
+	private PrecoAtualPK precoAtualPK;
+
 	@Column(name = "valor", nullable = false)
 	private double valor;
-	
+
+	@Column(name = "data_atualizacao", nullable = false)
+	private Date dataAtualizacao;
+
+	@ManyToOne
+	@JoinColumn(name = "usuario", nullable = false)
+	private Usuario usuario;
+
 	@Override
 	public Long getId() {
 		return null;
@@ -36,23 +41,7 @@ public class PrecoAtual implements IEntity{
 
 	@Override
 	public void setId(Long id) {
-		
-	}
 
-	public Produto getProduto() {
-		return produto;
-	}
-
-	public void setProduto(Produto produto) {
-		this.produto = produto;
-	}
-
-	public Estabelecimento getEstabelecimento() {
-		return estabelecimento;
-	}
-
-	public void setEstabelecimento(Estabelecimento estabelecimento) {
-		this.estabelecimento = estabelecimento;
 	}
 
 	public double getValor() {
@@ -63,5 +52,28 @@ public class PrecoAtual implements IEntity{
 		this.valor = valor;
 	}
 
-	
+	public PrecoAtualPK getPrecoAtualPK() {
+		return precoAtualPK;
+	}
+
+	public void setPrecoAtualPK(PrecoAtualPK precoAtualPK) {
+		this.precoAtualPK = precoAtualPK;
+	}
+
+	public Date getDataAtualizacao() {
+		return dataAtualizacao;
+	}
+
+	public void setDataAtualizacao(Date dataAtualizacao) {
+		this.dataAtualizacao = dataAtualizacao;
+	}
+
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
+	}
+
 }

@@ -1,15 +1,10 @@
 package br.com.jvzsolutions.rp.model;
 
-import java.util.List;
-
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import br.com.jvzsolutions.rp.dao.persistence.IEntity;
@@ -26,6 +21,9 @@ public class Estado implements IEntity{
 	@Column(name = "nome", nullable = false, unique = true)
 	private String nome;
 	
+	@Column(name = "sigla", nullable = false, unique = true)
+	private String sigla;
+	
 	public Long getId() {
 		return id;
 	}
@@ -40,6 +38,14 @@ public class Estado implements IEntity{
 
 	public void setNome(String nome) {
 		this.nome = nome;
+	}
+	
+	public void setSigla(String sigla) {
+		this.sigla = sigla;
+	}
+	
+	public String getSigla() {
+		return sigla;
 	}
 	
 	

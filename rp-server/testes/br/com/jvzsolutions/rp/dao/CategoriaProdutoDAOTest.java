@@ -14,12 +14,17 @@ public class CategoriaProdutoDAOTest {
 	public void saveTest() throws ExcecaoGenericaDAO {
 		DAOFactory instance = DAOFactory.getInstance("psocial");
 		
-		CategoriaProduto u = new CategoriaProduto();
-		u.setId(2L);
-		u.setNome("Comidas");
-		IPersistenceOperationsDAO<CategoriaProduto> dao = (IPersistenceOperationsDAO<CategoriaProduto>) instance.createDAO(u.getClass());
+		CategoriaProduto bebida = new CategoriaProduto();
+		bebida.setId(1L);
+		bebida.setNome("Bebidas");
+		
+		CategoriaProduto cerveja = new CategoriaProduto();
+		cerveja.setNome("Cafés");
+		cerveja.setPai(bebida);
+		
+		IPersistenceOperationsDAO<CategoriaProduto> dao = (IPersistenceOperationsDAO<CategoriaProduto>) instance.createDAO(bebida.getClass());
 		Assert.assertNotNull(dao);
 		
-		dao.save(u);
+		dao.save(cerveja);
 	}
 }

@@ -17,6 +17,7 @@ import br.com.jvzsolutions.rp.dao.persistence.IEntity;
 @Table(name = "produtos")
 @NamedQueries({
 	@NamedQuery(name = "Produto.searchById", query = "select obj from Produto obj where obj.id = ?1"),
+	@NamedQuery(name = "Produto.search", query = "select obj from Produto obj where LOWER(obj.nome) like ?1 or obj.codigoBarras = ?2 or LOWER(obj.categoria.nome) like ?3"),
 	@NamedQuery(name = "Produto.searchByCodigoBarras", query = "select obj from Produto obj where obj.codigoBarras = ?1")})
 public class Produto implements IEntity{
 
