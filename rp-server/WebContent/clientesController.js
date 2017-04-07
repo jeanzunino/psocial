@@ -1,15 +1,8 @@
-var app = angular.module("app", ["ngRoute"]);
-
-app.config(['$routeProvider', function ($routeProvider) {
-    $routeProvider.when('/', {
-        templateUrl: 'home.html',
-        controller: 'HomeController'
-    })
-    .otherwise({ redirectTo: '/' });
-}]);
-
-app.controller('HomeController', function($scope, $http) {
-  console.log('HomeController called .................');
+(function () {
+    'use strict';
+    var app= angular.module('app');
+        app.controller('ClientesController', function($scope, $http) {
+  console.log('ClientesController called .................');
 
   $scope.tipoCategoriaCliente = {
     PESSOA_FISICA : {value: 0, name: "Pessoa Física", model: "FISICA"},
@@ -51,3 +44,5 @@ app.controller('HomeController', function($scope, $http) {
       });
   }
 });
+
+}());

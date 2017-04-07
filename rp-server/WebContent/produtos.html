@@ -1,0 +1,21 @@
+<div class="container-fluid">
+	<div>
+
+		<div style="margin-top: 60px;">
+			<div>
+				<div style="width: 33%; float: left;">C�digo</div>
+				<div style="width: 33%; float: left;">Nome</div>
+				<div style="width: 33%; float: left;">Ean</div>
+			</div>
+			<div ng-class="row"
+				ng-repeat="produto in produtos | orderBy : 'nome'">
+				<div class="row">
+					<div style="width: 33%; float: left;">{{ produto.id }}</div>
+					<div style="width: 33%; float: left;">{{ produto.nome }}</div>
+					<div style="width: 33%; float: left;">{{ produto.codigoBarras }}</div>
+				</div>
+			</div>
+		</div>
+		<button class="btn" ng-click="addItem()">Add Item</button>
+	</div>
+</div>
