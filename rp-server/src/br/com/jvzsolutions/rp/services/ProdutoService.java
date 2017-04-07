@@ -12,16 +12,15 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response.Status;
 
 import com.sun.jersey.api.JResponse;
 
 import br.com.jvzsolutions.rp.dao.persistence.DAOFactory;
 import br.com.jvzsolutions.rp.dao.persistence.IPersistenceOperationsDAO;
-import br.com.jvzsolutions.rp.model.Cidade;
 import br.com.jvzsolutions.rp.model.PrecoAtual;
 import br.com.jvzsolutions.rp.model.Produto;
 import br.com.jvzsolutions.rp.model.Usuario;
+import br.com.jvzsolutions.rp.services.model.StringListModel;
 
 @Path("/produtos")
 public class ProdutoService extends AbstractService<Produto> {
@@ -35,25 +34,29 @@ public class ProdutoService extends AbstractService<Produto> {
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public JResponse<?> getByCodigoBarras(@QueryParam("filter") String filter) throws Throwable {
+	public JResponse<?> getByCodigoBarras(@QueryParam("filter") final List<String> filters) throws Throwable {
 		long time = System.currentTimeMillis();
 		IPersistenceOperationsDAO<Produto> daoProduto = getDao(Produto.class);
-		if (filter == null || filter.length() < 3) {
-			return JResponse.ok(new ArrayList<>()).build();
+		if (filters == null || filters.isEmpty()) {
+			return getAll(Produto.class);
 		}
+		List<Produto> resultList = new ArrayList<>();
 		long barcode = 0;
-		try {
-			barcode = Long.parseLong(filter);
-		} catch (NumberFormatException e) {
-			// OK
+		for (String filter : filters) {
+
+			try {
+				barcode = Long.parseLong(filter);
+			} catch (NumberFormatException e) {
+				// OK
+			}
+			filter = "%" + filter.toLowerCase() + "%";
+			Object[] parameters = new Object[] { filter, barcode, filter };
+
+			List<Produto> produtoList = daoProduto.executeNamedQuery("Produto.search", parameters);
+			resultList.addAll(produtoList);
 		}
-		filter = "%" + filter.toLowerCase() + "%";
-		Object[] parameters = new Object[] { filter, barcode, filter };
-
-		List<Produto> produtoList = daoProduto.executeNamedQuery("Produto.search", parameters);
-
 		System.out.println("getByCodigoBarras Processado em " + (System.currentTimeMillis() - time));
-		return JResponse.ok(produtoList).build();
+		return JResponse.ok(resultList).build();
 	}
 
 	@GET
@@ -83,7 +86,10 @@ public class ProdutoService extends AbstractService<Produto> {
 		}
 		parameters = new Object[] { p };
 
-		List<PrecoAtual> precos = daoPrecos.executeQuery("select obj from PrecoAtual obj where obj.precoAtualPK.produto = ?1 and obj.precoAtualPK.estabelecimento.cidade.id IN ("+cidades+")", parameters);
+		List<PrecoAtual> precos = daoPrecos.executeQuery(
+				"select obj from PrecoAtual obj where obj.precoAtualPK.produto = ?1 and obj.precoAtualPK.estabelecimento.cidade.id IN ("
+						+ cidades + ")",
+				parameters);
 		System.out.println("getByCodigoBarras Processado em " + (System.currentTimeMillis() - time));
 		return JResponse.ok(precos).build();
 	}

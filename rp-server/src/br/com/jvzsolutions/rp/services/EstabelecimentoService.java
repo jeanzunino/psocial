@@ -26,8 +26,8 @@ public class EstabelecimentoService extends AbstractService<Estabelecimento>{
 			return getAll(Estabelecimento.class);
 		}
 		IPersistenceOperationsDAO<Estabelecimento> daoProduto = getDao(Estabelecimento.class);
-		Object[] parameters = new Object[]{cidades};
-		List<Estabelecimento> search = daoProduto.executeQuery("SELECT obj from Estabelecimento obj where obj.cidade.id in (?1)", parameters );
+		Object[] parameters = new Object[]{};
+		List<Estabelecimento> search = daoProduto.executeQuery("SELECT obj from Estabelecimento obj where obj.cidade.id in ("+cidades+")", parameters );
 		return JResponse.ok(search).build();
 	}
 	
