@@ -1,9 +1,12 @@
 package br.com.jvzsolutions.rp.services;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -17,7 +20,6 @@ import com.sun.jersey.api.JResponse;
 
 import br.com.jvzsolutions.rp.dao.persistence.IPersistenceOperationsDAO;
 import br.com.jvzsolutions.rp.model.Cliente;
-import br.com.jvzsolutions.rp.model.Produto;
 
 @Path("/clientes")
 public class ClienteService extends AbstractService<Cliente> {
@@ -26,7 +28,11 @@ public class ClienteService extends AbstractService<Cliente> {
 	@Path("/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public JResponse<List<Cliente>> getClientes(@PathParam("id") long id) throws Throwable {
-		return getById(Cliente.class, id);
+		Cliente entity = getById(Cliente.class, id);
+		if(entity == null){
+			throw new IllegalArgumentException("Cliente não encontrado.");
+		}
+		return JResponse.ok(Arrays.asList(entity)).build();
 	}
 
 	@GET
@@ -43,7 +49,7 @@ public class ClienteService extends AbstractService<Cliente> {
 
 		List<Cliente> produtoList = daoProduto.executeNamedQuery("Cliente.search", parameters);
 		resultList.addAll(produtoList);
-		System.out.println("getByCodigoBarras Processado em " + (System.currentTimeMillis() - time));
+		System.out.println(new Date() + " Cliente - getByFilter Processado em " + (System.currentTimeMillis() - time));
 		return JResponse.ok(resultList).build();
 	}
 
@@ -61,6 +67,18 @@ public class ClienteService extends AbstractService<Cliente> {
 	public void update(Cliente cliente) throws Throwable {
 		IPersistenceOperationsDAO<Cliente> daoProduto = getDao(Cliente.class);
 		daoProduto.update(cliente);
+	}
+	
+	@DELETE
+	@Path("/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public void delete(@PathParam("id") long id) throws Throwable {
+		IPersistenceOperationsDAO<Cliente> daoProduto = getDao(Cliente.class);
+		Cliente entity = getById(Cliente.class, id);
+		if(entity == null){
+			throw new IllegalArgumentException("Cliente não encontrado.");
+		}
+		daoProduto.delete(entity);
 	}
 
 }

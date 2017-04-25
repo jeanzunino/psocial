@@ -1,7 +1,7 @@
 (function () {
     'use strict';
     var app= angular.module('app');
-        app.controller('EstabelecimentosController', function($scope, $http) {
+        app.controller('EstabelecimentosController', function($scope, $http, $window) {
   console.log('EstabelecimentosController called .................');
 
   $scope.list = {};

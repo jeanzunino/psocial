@@ -1,9 +1,12 @@
 package br.com.jvzsolutions.rp.services;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -17,6 +20,7 @@ import com.sun.jersey.api.JResponse;
 
 import br.com.jvzsolutions.rp.dao.persistence.DAOFactory;
 import br.com.jvzsolutions.rp.dao.persistence.IPersistenceOperationsDAO;
+import br.com.jvzsolutions.rp.model.Cliente;
 import br.com.jvzsolutions.rp.model.PrecoAtual;
 import br.com.jvzsolutions.rp.model.Produto;
 import br.com.jvzsolutions.rp.model.Usuario;
@@ -29,7 +33,11 @@ public class ProdutoService extends AbstractService<Produto> {
 	@Path("/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public JResponse<List<Produto>> getProdutos(@PathParam("id") long id) throws Throwable {
-		return getById(Produto.class, id);
+		Produto entity = getById(Produto.class, id);
+		if(entity == null){
+			throw new IllegalArgumentException("Produto não encontrado.");
+		}
+		return JResponse.ok(Arrays.asList(entity)).build();
 	}
 
 	@GET
@@ -41,7 +49,7 @@ public class ProdutoService extends AbstractService<Produto> {
 			return getAll(Produto.class);
 		}
 		List<Produto> resultList = new ArrayList<>();
-		long barcode = 0;
+		long barcode = -1;
 		for (String filter : filters) {
 
 			try {
@@ -55,7 +63,7 @@ public class ProdutoService extends AbstractService<Produto> {
 			List<Produto> produtoList = daoProduto.executeNamedQuery("Produto.search", parameters);
 			resultList.addAll(produtoList);
 		}
-		System.out.println("getByCodigoBarras Processado em " + (System.currentTimeMillis() - time));
+		System.out.println(new Date() + " getByCodigoBarras Processado em " + (System.currentTimeMillis() - time));
 		return JResponse.ok(resultList).build();
 	}
 
@@ -81,7 +89,7 @@ public class ProdutoService extends AbstractService<Produto> {
 			parameters = new Object[] { p };
 
 			List<PrecoAtual> precos = daoPrecos.executeNamedQuery("PrecoAtual.searchByProduto", parameters);
-			System.out.println("getByCodigoBarras Processado em " + (System.currentTimeMillis() - time));
+			System.out.println(new Date() + " getPrecos Processado em " + (System.currentTimeMillis() - time));
 			return JResponse.ok(precos).build();
 		}
 		parameters = new Object[] { p };
@@ -90,7 +98,7 @@ public class ProdutoService extends AbstractService<Produto> {
 				"select obj from PrecoAtual obj where obj.precoAtualPK.produto = ?1 and obj.precoAtualPK.estabelecimento.cidade.id IN ("
 						+ cidades + ")",
 				parameters);
-		System.out.println("getByCodigoBarras Processado em " + (System.currentTimeMillis() - time));
+		System.out.println(new Date() + " getPrecos Processado em " + (System.currentTimeMillis() - time));
 		return JResponse.ok(precos).build();
 	}
 
@@ -102,6 +110,18 @@ public class ProdutoService extends AbstractService<Produto> {
 		daoProduto.save(produto);
 	}
 
+	@DELETE
+	@Path("/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public void delete(@PathParam("id") long id) throws Throwable {
+		IPersistenceOperationsDAO<Produto> daoProduto = getDao(Produto.class);
+		Produto entity = getById(Produto.class, id);
+		if(entity == null){
+			throw new IllegalArgumentException("Produto não encontrado.");
+		}
+		daoProduto.delete(entity);
+	}
+	
 	@PUT
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)

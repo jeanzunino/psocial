@@ -3,6 +3,7 @@ package br.com.jvzsolutions.rp.services;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -15,6 +16,7 @@ import com.sun.jersey.api.JResponse;
 
 import br.com.jvzsolutions.rp.dao.UsuarioDAO;
 import br.com.jvzsolutions.rp.dao.persistence.IPersistenceOperationsDAO;
+import br.com.jvzsolutions.rp.model.Cliente;
 import br.com.jvzsolutions.rp.model.Usuario;
 
 @Path("/usuarios")
@@ -51,5 +53,17 @@ public class UsuarioService extends AbstractService<Usuario>{
 		IPersistenceOperationsDAO<Usuario> daoProduto = getDao(Usuario.class);
 		daoProduto.update(produto);
 		return JResponse.ok().build();
+	}
+	
+	@DELETE
+	@Path("/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public void delete(@PathParam("id") long id) throws Throwable {
+		IPersistenceOperationsDAO<Usuario> daoProduto = getDao(Usuario.class);
+		Usuario entity = getById(Usuario.class, id);
+		if(entity == null){
+			throw new IllegalArgumentException("Usuário não encontrado.");
+		}
+		daoProduto.delete(entity);
 	}
 }

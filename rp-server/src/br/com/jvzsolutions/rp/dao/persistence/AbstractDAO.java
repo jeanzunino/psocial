@@ -69,7 +69,7 @@ public abstract class AbstractDAO<TEntity extends IEntity> implements IPersisten
 		}
 	}
 
-	private int getEntityId(TEntity entity) {
+	private long getEntityId(TEntity entity) {
 		try {
 			Field[] fields = entity.getClass().getDeclaredFields();
 			for (Field field : fields) {
@@ -80,9 +80,9 @@ public abstract class AbstractDAO<TEntity extends IEntity> implements IPersisten
 					Method getMethod = null;
 
 					getMethod = entity.getClass().getMethod(getMethodStr);
-					Integer returnValue = (Integer) getMethod.invoke(entity, (Object[]) null);
+					Long returnValue = (Long) getMethod.invoke(entity, (Object[]) null);
 					if (returnValue != null)
-						return returnValue.intValue();
+						return returnValue;
 					else
 						return -1;
 				}

@@ -19,11 +19,14 @@ public class AbstractService<T extends IEntity> {
 		return JResponse.ok(search).build();
 	}
 	
-	public JResponse<List<T>> getById(Class<T> entityClass, long id) throws Throwable {
+	public T getById(Class<T> entityClass, long id) throws Throwable {
 		DAOFactory instance = DAOFactory.getInstance(ConfigConstants.puName);
 		IPersistenceOperationsDAO<T> dao = (IPersistenceOperationsDAO<T>) instance.createDAO(entityClass);
 		List<T> search = dao.executeNamedQuery(entityClass.getSimpleName()+".searchById", new Object[]{id});
-		return JResponse.ok(search).build();
+		if(search.isEmpty()){
+			return null;
+		}
+		return search.get(0);
 	}
 	
 	protected IPersistenceOperationsDAO<T> getDao(Class<T> entityClass) throws ExcecaoGenericaDAO{

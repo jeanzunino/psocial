@@ -15,16 +15,11 @@ public class CategoriaProdutoDAOTest {
 		DAOFactory instance = DAOFactory.getInstance("psocial");
 		
 		CategoriaProduto bebida = new CategoriaProduto();
-		bebida.setId(1L);
-		bebida.setNome("Bebidas");
-		
-		CategoriaProduto cerveja = new CategoriaProduto();
-		cerveja.setNome("Cafés");
-		cerveja.setPai(bebida);
+		bebida.setNome("Desconhecida");
 		
 		IPersistenceOperationsDAO<CategoriaProduto> dao = (IPersistenceOperationsDAO<CategoriaProduto>) instance.createDAO(bebida.getClass());
 		Assert.assertNotNull(dao);
 		
-		dao.save(cerveja);
+		dao.save(bebida);
 	}
 }
